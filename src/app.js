@@ -3,7 +3,7 @@ import logger from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import passport from 'passport';
-import dotenv, { config } from 'dotenv';
+import dotenv from 'dotenv';
 dotenv.config();
 
 import swaggerConfig from './config/swagger.js';
@@ -48,7 +48,7 @@ class Server {
     // Serve Swagger UI at /api-docs endpoint
     const swaggerOptions = {
       swaggerDefinition: swaggerConfig,
-      apis: ['./api/resources/*/*.swagger.yaml'],
+      apis: ['./api/*/*.swagger.yaml'],
     };
     const swaggerSpec = swaggerJsdoc(swaggerOptions);
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
