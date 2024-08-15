@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import UserController from './user.controller.js';
 import UserMiddleware from './user.middleware.js';
-import validateSchema from '../../../utils/validateSchema.utils.js';
 import passport from 'passport';
 
 class UserRouter {

@@ -2,7 +2,7 @@ import User from '../user/user.model.js';
 import AuthService from './auth.service.js';
 
 class AuthController {
-  static async signup(req, res, next) {
+  static async signup(req, res) {
     try {
       const newUser = await User.create({
         firstName: req.body.firstName,
@@ -19,7 +19,7 @@ class AuthController {
     }
   }
 
-  static async loginWithPassword(req, res, next) {
+  static async loginWithPassword(req, res) {
     try {
       const phone = req.body.phone;
       const password = req.body.password;
@@ -38,7 +38,7 @@ class AuthController {
     }
   }
 
-  static async getOtp(req, res, next) {
+  static async getOtp(req, res) {
     try {
       const nationalId = req.body.nationalId;
       const phone = req.body.phone;
@@ -62,7 +62,7 @@ class AuthController {
     }
   }
 
-  static async loginWithOtp(req, res, next) {
+  static async loginWithOtp(req, res) {
     try {
       const nationalId = req.body.nationalId;
       const phone = req.body.phone;

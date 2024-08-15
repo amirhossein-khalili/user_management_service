@@ -1,10 +1,11 @@
 import User from './user.model.js';
+import AuthService from '../auth/auth.service.js';
 
 class UserController {
   static selectionUser = 'firstName lastName phone';
   static selectionUsers = 'firstName lastName phone';
 
-  static async create(req, res, next) {
+  static async create(req, res) {
     try {
       const newUser = await User.create({
         firstName: req.body.firstName,
@@ -13,14 +14,14 @@ class UserController {
         password: AuthService.encryptPassword(req.body.password),
       });
 
-      res.status(201).json({ success: true });
+      if (newUser) res.status(201).json({ success: true });
     } catch (error) {
       console.error(error);
       res.status(500).json('an error occurred please try again later');
     }
   }
 
-  static async findAll(req, res, next) {
+  static async findAll(req, res) {
     try {
       const { page, perPage } = req.query;
       const options = {
@@ -38,7 +39,7 @@ class UserController {
     }
   }
 
-  static async findOne(req, res, next) {
+  static async findOne(req, res) {
     try {
       const user = await User.findById(req.params.id).select(UserController.selectionUsers);
       if (!user) return res.status(404).json({ message: 'user not found ' });
@@ -63,23 +64,11 @@ class UserController {
     }
   }
 
-  static async destroy(req, res, next) {
+  static async destroy(req, res) {
     try {
       const userRemoved = await User.findByIdAndDelete(req.params.id);
       if (!userRemoved) return res.status(404).json({ message: 'user not found ' });
       res.json(userRemoved);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json('an error occurred please try again later');
-    }
-  }
-
-  static async checkUnique(req, res, next) {
-    try {
-      const user = await User.findById(req.params.id);
-      if (user)
-        return res.status(403).send({ error: 'you have already signup , please use sign in ' });
-      else return next();
     } catch (error) {
       console.error(error);
       res.status(500).json('an error occurred please try again later');

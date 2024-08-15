@@ -1,8 +1,7 @@
 import { Router } from 'express';
 import AuthController from './auth.controller.js';
-import AuthMiddleware from './auth.middleware.js';
-import validateSchema from '../../../utils/validateSchema.utils.js';
-import { loginOtpSchema, signupSchema, otpSchema } from './auth.validation.js';
+import validateSchema from '../../utils/validateSchema.utils.js';
+import { loginOtpSchema, otpSchema } from './auth.validation.js';
 
 class AuthRouter {
   constructor() {
