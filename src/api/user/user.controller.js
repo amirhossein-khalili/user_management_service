@@ -1,15 +1,15 @@
 import User from './user.model.js';
 
 class UserController {
-  static selectionUser = 'firstName lastName email';
-  static selectionUsers = 'firstName lastName email';
+  static selectionUser = 'firstName lastName phone';
+  static selectionUsers = 'firstName lastName phone';
 
   static async create(req, res, next) {
     try {
       const newUser = await User.create({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        email: req.body.email,
+        phone: req.body.phone,
         password: AuthService.encryptPassword(req.body.password),
       });
 

@@ -19,13 +19,13 @@ describe('UserController', () => {
       User.create.mockResolvedValue({
         firstName: 'John',
         lastName: 'Doe',
-        email: 'john.doe@example.com',
+        phone: 'john.doe@example.com',
       });
 
       const res = await request(app).post('/users').send({
         firstName: 'John',
         lastName: 'Doe',
-        email: 'john.doe@example.com',
+        phone: 'john.doe@example.com',
         password: 'password',
       });
 
@@ -39,7 +39,7 @@ describe('UserController', () => {
       const res = await request(app).post('/users').send({
         firstName: 'John',
         lastName: 'Doe',
-        email: 'john.doe@example.com',
+        phone: 'john.doe@example.com',
         password: 'password',
       });
 
@@ -50,7 +50,7 @@ describe('UserController', () => {
 
   describe('findAll', () => {
     it('should return a list of users', async () => {
-      const users = [{ firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com' }];
+      const users = [{ firstName: 'John', lastName: 'Doe', phone: 'john.doe@example.com' }];
       User.paginate.mockResolvedValue({
         docs: users,
         totalDocs: 1,
@@ -77,7 +77,7 @@ describe('UserController', () => {
 
   describe('findOne', () => {
     it('should return a user by ID', async () => {
-      const user = { firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com' };
+      const user = { firstName: 'John', lastName: 'Doe', phone: 'john.doe@example.com' };
       User.findById.mockResolvedValue(user);
 
       const res = await request(app).get('/users/someUserId');
@@ -107,7 +107,7 @@ describe('UserController', () => {
 
   describe('edit', () => {
     it('should update a user by ID', async () => {
-      const userUpdated = { firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com' };
+      const userUpdated = { firstName: 'John', lastName: 'Doe', phone: 'john.doe@example.com' };
       User.findByIdAndUpdate.mockResolvedValue(userUpdated);
 
       const res = await request(app)
@@ -146,7 +146,7 @@ describe('UserController', () => {
       User.findByIdAndDelete.mockResolvedValue({
         firstName: 'John',
         lastName: 'Doe',
-        email: 'john.doe@example.com',
+        phone: 'john.doe@example.com',
       });
 
       const res = await request(app).delete('/users/someUserId');
@@ -155,7 +155,7 @@ describe('UserController', () => {
       expect(res.body).toEqual({
         firstName: 'John',
         lastName: 'Doe',
-        email: 'john.doe@example.com',
+        phone: 'john.doe@example.com',
       });
     });
 
@@ -183,7 +183,7 @@ describe('UserController', () => {
       User.findById.mockResolvedValue({
         firstName: 'John',
         lastName: 'Doe',
-        email: 'john.doe@example.com',
+        phone: 'john.doe@example.com',
       });
 
       const res = await request(app).get('/users/checkUnique/someUserId');

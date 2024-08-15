@@ -3,8 +3,8 @@ import User from './user.model.js';
 class UserMiddleware {
   static async checkUnique(req, res, next) {
     try {
-      const email = req.body.email;
-      const user = await User.findById({ email: email });
+      const phone = req.body.phone;
+      const user = await User.findById({ phone: phone });
       if (user)
         return res.status(403).send({ error: 'you have already signup , please use sign in ' });
       else return next();
