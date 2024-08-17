@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import AuthController from './auth.controller.js';
 import validateSchema from '../../utils/validateSchema.utils.js';
-import { loginOtpSchema, otpSchema } from './auth.validation.js';
+import { loginOtpSchema, otpSchema, signupSchema } from './auth.validation.js';
 
 class AuthRouter {
   constructor() {
@@ -10,6 +10,8 @@ class AuthRouter {
   }
 
   initializeRoutes() {
+    // this.router.route('/signup').post(validateSchema(signupSchema), AuthController.signup);
+
     this.router.route('/otp').post(validateSchema(otpSchema), AuthController.getOtp);
 
     this.router.route('/login').post(validateSchema(loginOtpSchema), AuthController.loginWithOtp);
