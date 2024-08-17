@@ -66,6 +66,13 @@ This project is a user management service that includes the following features:
 
 4. **Access the service**: The service will be running at `http://localhost:4000`.
 
+## postman
+
+you can use the postman collection for testing apis 
+
+the collection is in the docs directory
+
+
 ## Environment Variables
 
 Ensure the following environment variables are set in your `.env` file:
