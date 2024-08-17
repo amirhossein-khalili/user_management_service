@@ -8,10 +8,11 @@ class AuthController {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         phone: req.body.phone,
+        nationalId: req.body.nationalId,
         password: AuthService.encryptPassword(req.body.password),
       });
 
-      if (newUser) res.status(201).json({ success: true });
+      if (newUser) res.status(201).json({ status: 'success' });
       else res.status(500).json('an error occurred please try again later');
     } catch (error) {
       console.error(error);
@@ -31,7 +32,7 @@ class AuthController {
       if (!authenticated) return res.status(401).send({ message: 'invalid password' });
 
       const token = AuthService.generateToken(user);
-      res.status(201).json({ success: true, token: token });
+      res.status(201).json({ status: 'success', token: token });
     } catch (error) {
       console.error(error);
       res.status(500).json('an error occurred please try again later');
@@ -55,7 +56,7 @@ class AuthController {
       console.log('='.repeat(50));
       // -----------------------------------------------------------------------------------
 
-      res.status(201).json({ success: true, message: 'your otp has been sent . ' });
+      res.status(201).json({ status: 'success', message: 'your otp has been sent . ' });
     } catch (error) {
       console.error(error);
       res.status(500).json('an error occurred please try again later');
@@ -81,7 +82,7 @@ class AuthController {
         });
       else {
         const token = AuthService.generateToken(user);
-        return res.status(201).json({ success: true, token: token });
+        return res.status(201).json({ status: 'success', token: token });
       }
     } catch (error) {
       console.error(error);
