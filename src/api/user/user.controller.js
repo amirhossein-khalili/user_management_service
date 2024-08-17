@@ -1,5 +1,6 @@
 import User from './user.model.js';
 import AuthService from '../auth/auth.service.js';
+import { validateObjectId } from '../../helpers/idValidator..js';
 
 class UserController {
   static selectionUser = 'firstName lastName phone';
@@ -14,7 +15,7 @@ class UserController {
         password: AuthService.encryptPassword(req.body.password),
       });
 
-      if (newUser) res.status(201).json({ success: true });
+      if (newUser) res.status(201).json({ status: 'success' });
     } catch (error) {
       console.error(error);
       res.status(500).json('an error occurred please try again later');
@@ -41,6 +42,9 @@ class UserController {
 
   static async findOne(req, res) {
     try {
+      if (!validateObjectId(req.params.id))
+        return res.status(400).json({ message: 'id is not correct ' });
+
       const user = await User.findById(req.params.id).select(UserController.selectionUsers);
       if (!user) return res.status(404).json({ message: 'user not found ' });
       return res.json(user);
@@ -52,6 +56,9 @@ class UserController {
 
   static async edit(req, res) {
     try {
+      if (!validateObjectId(req.params.id))
+        return res.status(400).json({ message: 'id is not correct ' });
+
       const userUpdated = await User.findByIdAndUpdate(req.params.id, req.body, {
         new: false,
       });
@@ -66,6 +73,9 @@ class UserController {
 
   static async destroy(req, res) {
     try {
+      if (!validateObjectId(req.params.id))
+        return res.status(400).json({ message: 'id is not correct ' });
+
       const userRemoved = await User.findByIdAndDelete(req.params.id);
       if (!userRemoved) return res.status(404).json({ message: 'user not found ' });
       res.json(userRemoved);
