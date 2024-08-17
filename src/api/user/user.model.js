@@ -6,7 +6,12 @@ const userSchema = new Schema({
   lastName: String,
   phone: String,
   password: String,
-  nationalId: Number,
+  nationalId: String,
+  role: {
+    type: String,
+    enum: ['customer', 'admin'],
+    default: 'customer',
+  },
 });
 
 userSchema.plugin(mongoosePagination);
