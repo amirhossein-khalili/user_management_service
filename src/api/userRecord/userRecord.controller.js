@@ -3,17 +3,23 @@ import UserRecordService from './userRecord.service.js';
 class UserRecordController {
   static async getRecord(req, res) {
     try {
-      console.log();
+      const user = req.user;
+      if (user) {
+        const nationalId = user?.nationalId;
 
-      return res.status(200).json('an error occurred please try again later');
-      // const newUser = await User.create({
-      //   firstName: req.body.firstName,
-      //   lastName: req.body.lastName,
-      //   phone: req.body.phone,
-      //   password: AuthService.encryptPassword(req.body.password),
-      // });
-      // if (newUser) res.status(201).json({ success: true });
-      // else res.status(500).json('an error occurred please try again later');
+        if (nationalId) {
+          const result = UserRecordService.fetchRecordWithNationalId(nationalId);
+
+          if (result.status == 'success') {
+            const userRecord = result.userRecord;
+            return res.status(200).json({ userRecord: userRecord });
+          }
+          if (result.status == 'fail')
+            return res.status(500).json('an error occurred please try again later.');
+        }
+      }
+
+      return res.status(500).json('please try again later  ');
     } catch (error) {
       console.error(error);
       res.status(500).json('an error occurred please try again later');
