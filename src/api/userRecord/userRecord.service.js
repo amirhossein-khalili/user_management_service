@@ -1,21 +1,19 @@
 import { userRecordBaseUrl } from './userRecord.config.js';
 import axios from 'axios';
-import { redis } from '../../config/redis.config.js';
+// import { redis } from '../../config/redis.config.js';
 
 class UserRecordService {
-  constructor() {
-    this.cacheSize = 10;
-  }
+  constructor() {}
 
   static async fetchRecordWithNationalId(nationalId) {
     try {
       /*
 
       this part check if cache exist then return data from cache
-
-       */
-      const cachedRecord = await redis.get(nationalId);
-      if (cachedRecord) return { status: 'success', userRecord: JSON.parse(cachedRecord) };
+      
+      */
+      // const cachedRecord = await redis.get(nationalId);
+      // if (cachedRecord) return { status: 'success', userRecord: JSON.parse(cachedRecord) };
 
       /*
 
@@ -26,9 +24,10 @@ class UserRecordService {
       and return data to controller
 
       */
-      const response = await axios.get(`${userRecordBaseUrl}?nationalId=${nationalId}`);
-      await this._updateCache(nationalId, response.data);
-      return { status: 'success', userRecord: response.data };
+
+      const response = await axios.get(`${userRecordBaseUrl}/${nationalId}`);
+
+      return { status: 'success', userRecord: response.data.user };
     } catch (err) {
       console.log('Error fetching user record:', err);
       return {
@@ -38,31 +37,30 @@ class UserRecordService {
     }
   }
 
-  async _updateCache(nationalId, data) {
-    /*
+  // async _updateCache(nationalId, data) {
+  //   /*
 
-      this part will check records and update them
+  //     this part will check records and update them
 
-      and remove old keys from redis 
+  //     and remove old keys from redis
 
-      this part work with LRU‌ 
+  //     this part work with LRU‌
 
-      */
-    const cacheCount = await redis.dbsize();
-    if (cacheCount >= this.cacheSize) await redis.ltrim('keys', 1, -1);
+  //     */
+  //   const cacheCount = await redis.dbsize();
+  //   if (cacheCount >= this.cacheSize) await redis.ltrim('keys', 1, -1);
 
-    /*
+  //   /*
 
-    
-      this part check add new key to the cache and 
+  //     this part check add new key to the cache and
 
-      it will update the list of keys
+  //     it will update the list of keys
 
-      */
+  //     */
 
-    await redis.set(nationalId, JSON.stringify(data));
-    await redis.rpush('keys', nationalId);
-  }
+  //   await redis.set(nationalId, JSON.stringify(data));
+  //   await redis.rpush('keys', nationalId);
+  // }
 }
 
 export default UserRecordService;

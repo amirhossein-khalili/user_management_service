@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import UserRecordController from './userRecord.controller.js';
-import passport from 'passport';
+// import passport from 'passport';
 
 class UserRecordRouter {
   constructor() {
@@ -9,9 +9,10 @@ class UserRecordRouter {
   }
 
   initializeRoutes() {
-    this.router
-      .route('/')
-      .get(passport.authenticate('jwt', { session: false }), UserRecordController.getRecord);
+    this.router.route('/').get(
+      // passport.authenticate('jwt', { session: false }) ,
+      UserRecordController.getRecord
+    );
   }
 }
 
