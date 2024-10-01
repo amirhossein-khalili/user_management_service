@@ -56,15 +56,17 @@ app.get('/users', async (req, res) => {
 app.get('/users/nationalId/:nationalId', async (req, res) => {
   try {
     const nationalId = req.params.nationalId;
-    console.log(nationalId);
 
     const user = await User.findOne({ nationalId: nationalId });
     const users = await User.find({ nationalId: nationalId });
-    console.log(users);
 
-    if (!user) return res.status(404).json({ message: 'User not found', success: false });
+    // Check if user exists
+    if (!user) return res.status(200).json({ message: 'User not found', success: false });
 
-    res.status(200).json({ user: user, success: false });
+    // Add a 30 ms delay before sending the response
+    setTimeout(() => {
+      res.status(200).json({ user: user, success: true });
+    }, 30);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
