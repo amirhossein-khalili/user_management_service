@@ -31,14 +31,12 @@ class UserRecordController {
   static async getRecord(req, res) {
     try {
       const nationalId = req.query.nationalId;
-      console.log('inja');
-      console.log(nationalId);
+
       if (nationalId) {
-        const result = await UserRecordService.fetchRecordWithNationalId(nationalId);
-        console.log(result);
-        if (result.status == 'success') {
-          const userRecord = result.userRecord;
-          return res.status(200).json({ userRecord: userRecord });
+        const result = req.user;
+
+        if (result) {
+          return res.status(200).json({ userRecord: result });
         }
         if (result.status == 'fail')
           return res.status(500).json('an error occurred please try again later.');
